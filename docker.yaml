@@ -1,0 +1,13 @@
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: docker
+spec:
+  containers:
+  - name: docker
+    image: docker
+    args: ["sleep", "10000"]
+  restartPolicy: Never
+
