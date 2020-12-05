@@ -7,10 +7,8 @@ metadata:
 spec:
   containers:
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:latest
-    args: ["--dockerfile=/workspace/Dockerfile",
-            "--context=dir://workspace",
-            "--destination=vfarcic/devops-toolkit:1.0.0"]
+    image: gcr.io/kaniko-project/executor:debug
+    command: ["sleep", "10000000"]
     volumeMounts:
       - name: kaniko-secret
         mountPath: /kaniko/.docker
