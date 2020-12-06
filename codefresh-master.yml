@@ -1,0 +1,44 @@
+version: "1.0"
+kind: pipeline
+metadata:
+  name: gitpod-demo-master
+  description: Triggered when pushing changes to the master branch
+spec:
+  triggers:
+  - type: git
+    provider: github
+    context: github
+    name: master
+    repo: CHANGE_ME_REPO
+    events:
+    - push.heads
+    pullRequestAllowForkEvents: true
+    branchRegex: /^((master)$).*/gi
+    verified: true
+  stages:
+    - release
+  steps:
+    main_clone:
+      title: Cloning repository
+      type: git-clone
+      arguments:
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        git: github
+        revision: "${{CF_BRANCH}}"
+      stage: release
+    # build_image:
+    #   title: Building container image
+    #   type: build
+    #   arguments:
+    #     image_name: CHANGE_ME_DH_USER/gitpod-demo
+    #     tags:
+    #     - ${{CF_SHORT_REVISION}}
+    #     registry: docker-hub
+    #   stage: release
+    build_image:
+      title: Building container image
+      image: gcr.io/kaniko-project/executor:debug
+      commands:
+      - pwd
+      stage: release
+
