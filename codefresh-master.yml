@@ -26,19 +26,9 @@ spec:
         git: github
         revision: "${{CF_BRANCH}}"
       stage: release
-    # build_image:
-    #   title: Building container image
-    #   type: build
-    #   arguments:
-    #     image_name: CHANGE_ME_DH_USER/gitpod-demo
-    #     tags:
-    #     - ${{CF_SHORT_REVISION}}
-    #     registry: docker-hub
-    #   stage: release
     build_image:
       title: Building container image
-      image: gcr.io/kaniko-project/executor:debug
+      image: gcr.io/kaniko-project/executor:v1.3.0-debug
       commands:
-      - pwd
+        - executor --dockerfile=$PWD/Dockerfile --context=$PWD --destination=vfarcic/devops-toolkit:1.0.0
       stage: release
-
